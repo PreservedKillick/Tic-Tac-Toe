@@ -1,91 +1,65 @@
-var Contact = {
-  fullName: function() {
-    return this.firstName + " " + this.lastName; 
+var Game = {
+  
+  initialize: function() {
+    this.players = [];
+    this.players.push(Player.create('X'));
+    this.players.push(Player.create('O'));
+    this.newBoard = Board.create();
+
+    this.playerXArray = [];
+    this.playerOArray = [];
+  },
+    
+  create: function() {
+    var game = Object.create(Game);
+    game.initialize();
+    return game;
+  },
+};
+
+var Player = {
+  initialize: function(symbol) {
+    this.symbol = symbol;
+  },
+  create: function(symbol) {
+    var player = Object.create(Player);
+    player.initialize(symbol);
+    return player;
   }
 };
 
-var Address = {
-  fullAddress: function() {
-    return this.street + ", " + this.city + ", " + this.state;
+var Space = {
+  initialize: function(coordinateX, coordinateY) {
+    this.coordinateX = coordinateX;
+    this.coordinateY = coordinateY;
+  },
+  create: function(coordinateX, coordinateY) {
+    var space = Object.create(Space);
+    space.initialize(coordinateX, coordinateY);
+    return space
+  },
+  fullCoordinates: function(coordinateX, coordinateY) {
+    return this.coordinateX + ", " + this.coordinateY;
+  },
+  markBy: function(symbol) {
+    this.mark = symbol;
   }
 };
 
-var PhoneNumber = {
-  fullPhoneNumber: function() {
-    return this.area + "-" + this.prefix + "-" + this.suffix;
+var Board = {
+  create: function() {
+    var board = Object.create(Board);
+    board.initialize();
+    return board
+  },
+
+  initialize: function() {
+    this.allCoordinates = [];
+    for (var x = 1; x <= 3; x++) {
+      for (var y =1; y <= 3; y++) {
+        this.allCoordinates.push(Space.create(x, y));
+      }
+    }
   }
-};
+}
 
-
-$(document).ready(function() {
-  $("#add-address").click(function() {
-    $("#new-addresses").append('<div class="new-address">' + 
-                                 '<div class="form-group">' + 
-                                   '<label for="new-street">Street</label>' + 
-                                   '<input type="text" class="form-control new-street">' + 
-                                 '</div>' + 
-                                 '<div class="form-group">' + 
-                                   '<label for="new-city">City</label>' + 
-                                   '<input type="text" class="form-control new-city">' + 
-                                 '</div>' + 
-                                 '<div class="form-group">' + 
-                                   '<label for="new-state">State</label>' + 
-                                   '<input type="text" class="form-control new-state">' + 
-                                 '</div>' + 
-                               '</div>');
-  });
-
-$(document).ready(function() {
-  $("add-number").click(function() {
-    $("#new-number").append('<div class="new-address">' +
-                              '<div class="form-group">' +
-                                '<label for="new-number">Number</label>' +
-                                '<input type="text" class="form-control new-number">' +
-                              '</div>' +
-                            '</div>')
-  });
-});
-  $("form#new-contact").submit(function(event) {
-    event.preventDefault();
-
-    var inputtedFirstName = $("input#new-first-name").val();
-    var inputtedLastName = $("input#new-last-name").val();
-
-    var newContact = Object.create(Contact);
-    newContact.firstName = inputtedFirstName;
-    newContact.lastName = inputtedLastName;
-
-    newContact.addresses = [];
-
-    $(".new-address").each(function() {
-      var inputtedStreet = $(this).find("input.new-street").val();
-      var inputtedCity = $(this).find("input.new-city").val();
-      var inputtedState = $(this).find("input.new-state").val();
-
-      var newAddress = Object.create(Address);
-      newAddress.street = inputtedStreet;
-      newAddress.city = inputtedCity;
-      newAddress.state = inputtedState;
-
-      newContact.addresses.push(newAddress);
-    });
-
-
-    $("ul#contacts").append("<li><span class='contact'>" + newContact.fullName() + "</span></li>");
-
-    $(".contact").last().click(function() {
-      $("#show-contact").show();
-
-      $("#show-contact h2").text(newContact.fullName());
-      $(".first-name").text(newContact.firstName);
-      $(".last-name").text(newContact.lastName);
-
-      $("ul#addresses").text("");
-      newContact.addresses.forEach(function(address) {
-        $("ul#addresses").append("<li>" + address.fullAddress() + "</li>");
-      });
-    });
-
-    this.reset();
-  });
-});
