@@ -1,20 +1,28 @@
 var Game = {
-  
   initialize: function() {
     this.players = [];
     this.players.push(Player.create('X'));
     this.players.push(Player.create('O'));
     this.newBoard = Board.create();
-
-    this.playerXArray = [];
-    this.playerOArray = [];
   },
-    
+
   create: function() {
     var game = Object.create(Game);
     game.initialize();
     return game;
   },
+
+  // nextMove: function() {
+  //   // var game = Object.create(Game);
+  //   var space = Object.create(Space);
+  //   if (space.markBy === "X") {
+  //     this.nextMove = "O";
+  //     return "O";
+  //   } else {
+  //     this.nextMove = "X";
+  //     return "X";
+  //   }
+  // }
 };
 
 var Player = {
@@ -60,6 +68,11 @@ var Board = {
         this.allCoordinates.push(Space.create(x, y));
       }
     }
+  // threeInRow: function() {
+  //   this.playerXArray = [];
+  //   this.playerOArray = [];
+  //   if 
+  // }
   }
 }
 

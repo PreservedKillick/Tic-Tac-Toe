@@ -80,18 +80,19 @@ describe("Game", function() {
       testGame.initialize();
       testGame.newBoard.allCoordinates[3].fullCoordinates().should.equal("2, 1");
     });
-  });
-
-   /*   var testBoard = Object.create(Board);
-    testBoard.initialize();    
-    testBoard.allCoordinates[3].fullCoordinates().should.equal("2, 1");
-    });*/
-    
+  }); 
   describe("create", function() {
     it("creates an instance of Game", function() {
       var testGame = Object.create(Game);
       Game.isPrototypeOf(testGame).should.equal(true);
     });
   });
+  describe("nextMove", function() {
+    it("indicates which player should go next", function() {
+      var testGame = Object.create(Game);
+      var testSpace = Object.create(Space);
+      testGame.nextMove(testSpace.markBy("X")).should.equal("O");
+    })
+  })
 });
    
